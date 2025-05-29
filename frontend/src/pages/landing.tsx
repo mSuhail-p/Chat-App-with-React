@@ -5,7 +5,7 @@ const Landing = () => {
   return (
     <div className="lg:flex md:flex w-full h-[100dvh] overflow-hidden bg-white ">
       <div className="w-full  lg:w-[30%] lg:border-r-2 md:w-[30%] md:border-r-2 flex flex-col justify-start gap-6  ">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-7">
           <h4 className="text-black font-bold text-2xl pt-2 font-sans">
             CHAT APP
           </h4>
@@ -21,7 +21,7 @@ const Landing = () => {
           </div>
         </div>
         {/* listing the users */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 overflow-y-scroll">
           {users.map((user, index) => {
             return (
               <div
