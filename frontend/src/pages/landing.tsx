@@ -1,5 +1,6 @@
 import { IoMdSearch } from "react-icons/io";
 import { users } from "../sample";
+import ChatSection from "../components/chatSection";
 const Landing = () => {
   return (
     <div className="lg:flex md:flex w-full h-[100dvh] overflow-hidden bg-white ">
@@ -40,11 +41,11 @@ const Landing = () => {
           })}
         </div>
       </div>
-      <div className="flex-1  bg-red-400">hai</div>
+
+      <div className="flex-1">
+        <ChatSection />
+      </div>
     </div>
-
- 
-
   );
 };
 
