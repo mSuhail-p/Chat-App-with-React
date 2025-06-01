@@ -111,14 +111,21 @@ const Messages = () => {
               console.log(addMessage, "it is add message ");
             }}
           />
-          <input
-            type="text"
-            onChange={(e) => handleMessage(e)}
-            name="message"
-            value={addMessage}
-            className="w-full h-14 text-sm outline-0 placeholder:text-sm"
-            placeholder="Type a message"
-          />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage();
+            }}
+          >
+            <input
+              type="text"
+              onChange={(e) => handleMessage(e)}
+              name="message"
+              value={addMessage}
+              className="w-full h-14 text-sm outline-0 placeholder:text-sm"
+              placeholder="Type a message"
+            />
+          </form>
         </div>
         <LuSend className="text-xl" onClick={handleSendMessage} />
       </div>
