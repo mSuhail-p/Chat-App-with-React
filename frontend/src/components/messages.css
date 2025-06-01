@@ -1,0 +1,12 @@
+.mes-scrollbar {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  flex-direction: column-reverse;
+  
+}
+
+mes-scrollbar::-webkit-scrollbar {
+  display: none;
+}

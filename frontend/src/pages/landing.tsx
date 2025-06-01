@@ -1,10 +1,11 @@
 import { IoMdSearch } from "react-icons/io";
 import { users } from "../sample";
-import ChatSection from "../components/chatSection";
+import ChatSection from "../components/messages" 
+import "./landing.css"
 const Landing = () => {
   return (
-    <div className="lg:flex md:flex w-full h-[100dvh] overflow-hidden bg-white ">
-      <div className="w-full  lg:w-[30%] lg:border-r-2 md:w-[30%] md:border-r-2 flex flex-col justify-start gap-6  ">
+    <div className="  flex w-screen h-[100dvh] pl-3">
+    <div className="flex-1 border-r-2 flex flex-col justify-start gap-6   ">
         <div className="flex flex-col gap-7">
           <h4 className="text-black font-bold text-2xl pt-2 font-sans">
             CHAT APP
@@ -21,12 +22,13 @@ const Landing = () => {
           </div>
         </div>
         {/* listing the users */}
-        <div className="flex flex-col gap-3 overflow-y-scroll">
+        <div className="scrollable flex flex-col gap-3 ">
           {users.map((user, index) => {
             return (
               <div
                 key={index}
                 className="flex h-17 justify-between w-[96%] items-center cursor-pointer  hover:bg-amber-100 rounded"
+                
               >
                 <div className="flex  gap-2">
                   <div className="w-15 h-15 bg-black rounded "></div>
@@ -42,7 +44,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1/3">
         <ChatSection />
       </div>
     </div>
