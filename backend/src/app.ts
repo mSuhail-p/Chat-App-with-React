@@ -1,11 +1,13 @@
 import express, { Express } from "express";
+// import { createServer } from "http";
+import "dotenv/config";
 
 const app: Express = express();
+
+// const server = createServer(app);
 
 app.get("/", (req, res) => {
   res.send("working");
 });
 
-app.listen(5000, () => {
-  console.log("project runnint on port 5000");
-});
+export { app };
