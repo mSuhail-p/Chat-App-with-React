@@ -1,58 +1,56 @@
-import { useState } from "react";
-import EmojiPicker from "emoji-picker-react";
+import { useState, useRef, useEffect } from "react";
+import socket from "../socket.io";
+// import EmojiPicker from "emoji-picker-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdEmojiEmotions } from "react-icons/md";
+// import { MdEmojiEmotions } from "react-icons/md";
 import { RiAttachment2 } from "react-icons/ri";
 import { LuSend } from "react-icons/lu";
+
 import "./messages.css";
 const Messages = () => {
-  const [addMessage, setAddMessage] = useState<string>("");
-  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-  let newEmji: string = "";
+  const reff = useRef<HTMLTextAreaElement>(null);
+  // const [addMessage, setAddMessage] = useState<string>("");
 
-  const [message, setMessage] = useState([
-    { id: "sender", text: "Hello" },
-    { id: "receiver", text: "hai," },
-    { id: "receiver", text: "who are you" },
-    { id: "sender", text: "hai" },
-    { id: "receiver", text: "fine," },
-    { id: "sender", text: "how are you" },
-    { id: "receiver", text: "nothing," },
-    { id: "sender", text: "what else" },
-    { id: "sender", text: "Hello" },
-    { id: "receiver", text: "hai," },
-    { id: "receiver", text: "who are you" },
-    { id: "sender", text: "hai" },
-    { id: "receiver", text: "fine," },
-    { id: "sender", text: "how are you" },
-    { id: "receiver", text: "nothing," },
-    { id: "sender", text: "what else" },
-  ]);
+  const [message, setMessage] = useState([{ id: "sender", text: "Hello" }]);
 
-  const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMessage: string = e.target.value;
-    setAddMessage(newMessage);
-  };
+  // const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newMessage: string = e.target.value;
+  //   setAddMessage(newMessage);
+  // };
+
   const handleSendMessage = () => {
-    console.log(addMessage, "it is add message ");
-    if (addMessage.trim() !== "") {
-      setMessage((prev) => [...prev, { id: "sender", text: addMessage }]);
-      setAddMessage("");
-      newEmji = "";
-      console.log(newEmji, "it is new emoji from handleSendMessage");
+    const message = reff.current?.value;
+    console.log(message, "it is add message ");
+    if (message?.trim() !== "" && message != undefined) {
+      socket.emit("chatMessage", message);
+      setMessage((prev) => [...prev, { id: "sender", text: message }]);
+      if (reff.current) {
+        reff.current.value = "";
+      }
     }
   };
 
-  const emojiClik = (emojiData: any) => {
-    newEmji = addMessage + emojiData.emoji;
-    // console.log(newEmji, "it is add newMessage");
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
 
-    console.log(newEmji, "it is new emoji ");
-    setAddMessage(newEmji);
-  };
-  const handleEmoji = () => {
-    setShowEmojiPicker((prev) => !prev);
-  };
+  //get messages
+
+  useEffect(() => {}, []);
+
+  // const emojiClik = (emojiData: any) => {
+  //   newEmji = addMessage + emojiData.emoji;
+  //   // console.log(newEmji, "it is add newMessage");
+
+  //   console.log(newEmji, "it is new emoji ");
+  //   setAddMessage(newEmji);
+  // };
+  // const handleEmoji = () => {
+  //   setShowEmojiPicker((prev) => !prev);
+  // };
 
   return (
     <div className="bg-gray-200  flex flex-col h-full   ">
@@ -73,15 +71,15 @@ const Messages = () => {
             return (
               <div
                 key={index}
-                className={`flex  bg-red-300 p-1.5 ml-2 mr-2 m-0.5 rounded-lg
+                className={`flex  break-words lg:max-w-[500px] md:max-w-[400px] sm:max-w-[300px] max-w-[200px]  bg-red-300 p-1.5 ml-2 mr-2 m-0.5 rounded-lg
                  ${
                    message.id === "sender"
                      ? "self-end  rounded-tr-none"
                      : "self-start rounded-tl-none"
                  }`}
               >
-                <div className="w-fit flex items-center gap-2 ">
-                  <p className="text-md"> {message.text}</p>
+                <div className="w-full flex flex-col gap-2 break-words ">
+                  <p className="text-md break-words "> {message.text}</p>
                   <div className="flex flex-col self-end">
                     <p className="text-[9px] text-right">10:30 AM</p>
                   </div>
@@ -92,40 +90,21 @@ const Messages = () => {
         </div>
       </div>
 
-      {/* emoji picker */}
-      {showEmojiPicker && (
-        <div className="top-20 fixed    ">
-          <EmojiPicker onEmojiClick={emojiClik} />
-        </div>
-      )}
-
       {/* input section */}
 
-      <div className="max-w-full h-14 bg-amber-100 flex items-center justify-between px-5 ">
+      <div className="max-w-full h-14 bg-amber-100 flex items-center justify-between px-5 gap-2 ">
         <div className="w-full flex items-center gap-4 text-xl cursor-pointer">
-          <MdEmojiEmotions className="w-7" onClick={handleEmoji} />
+          {/* <MdEmojiEmotions className="w-7" onClick={handleEmoji} /> */}
 
-          <RiAttachment2
-            className="w-7"
-            onClick={() => {
-              console.log(addMessage, "it is add message ");
-            }}
-          />
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSendMessage();
-            }}
-          >
-            <input
-              type="text"
-              onChange={(e) => handleMessage(e)}
-              name="message"
-              value={addMessage}
-              className="w-full h-14 text-sm outline-0 placeholder:text-sm"
-              placeholder="Type a message"
-            />
-          </form>
+          <RiAttachment2 />
+
+          <textarea
+            ref={reff}
+            id="input-message"
+            className="w-full h-6  text-sm outline-0 placeholder:text-sm resize-none"
+            placeholder="Type a message"
+            onKeyDown={handleKeyDown}
+          ></textarea>
         </div>
         <LuSend className="text-xl" onClick={handleSendMessage} />
       </div>

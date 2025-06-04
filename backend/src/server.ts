@@ -1,7 +1,8 @@
 // import "dotenv/config";
-import { app } from "./src/app";
+import "dotenv/config";
+import server from "./app";
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("project runnint on port 5000");
 });

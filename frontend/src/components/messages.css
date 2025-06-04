@@ -10,3 +10,7 @@
 mes-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+#input-message::-webkit-scrollbar{
+  display: none;
+}

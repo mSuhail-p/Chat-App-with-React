@@ -1,6 +1,7 @@
 import { IoMdSearch } from "react-icons/io";
 import { users } from "../sample";
 import ChatSection from "../components/messages" 
+
 import "./landing.css"
 const Landing = () => {
   return (
