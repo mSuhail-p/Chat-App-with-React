@@ -15,9 +15,15 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("it is socket ", socket);
+  console.log(
+    "a user successfully connected",
+    "this is the id ",
+    socket.id,
+    "this is the id "
+  );
   socket.on("chatMessage", (msg) => {
     console.log(msg, "it is the message form client");
+    socket.broadcast.emit("chat message", msg);
   });
 
   //to disconnect the specific connection

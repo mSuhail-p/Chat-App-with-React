@@ -1,3 +1,4 @@
-// export interface inputMessage {
-//   [{ id: string, text: string }];
-// }
+export interface Messages {
+  id: string;
+  text: string;
+}

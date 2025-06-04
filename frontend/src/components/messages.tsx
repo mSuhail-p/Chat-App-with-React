@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import socket from "../socket.io";
-// import EmojiPicker from "emoji-picker-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-// import { MdEmojiEmotions } from "react-icons/md";
 import { RiAttachment2 } from "react-icons/ri";
 import { LuSend } from "react-icons/lu";
+import type { Messages } from "../interfaces/home.ts";
+// import EmojiPicker from "emoji-picker-react";
+// import { MdEmojiEmotions } from "react-icons/md";
 
 import "./messages.css";
 const Messages = () => {
   const reff = useRef<HTMLTextAreaElement>(null);
   // const [addMessage, setAddMessage] = useState<string>("");
 
-  const [message, setMessage] = useState([{ id: "sender", text: "Hello" }]);
+  const [message, setMessage] = useState<Messages[]>([]);
 
   // const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const newMessage: string = e.target.value;
@@ -39,7 +40,17 @@ const Messages = () => {
 
   //get messages
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("inside the useEffect");
+    socket.on("chat message", (msg) => {
+      console.log(msg, "it is recieved message");
+      setMessage((prev) => [...prev, { id: "receiver", text: msg }]);
+    });
+
+    return () => {
+      socket.off("chat message");
+    };
+  }, [socket]);
 
   // const emojiClik = (emojiData: any) => {
   //   newEmji = addMessage + emojiData.emoji;
