@@ -3,12 +3,12 @@ import socket from "../socket.io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiAttachment2 } from "react-icons/ri";
 import { LuSend } from "react-icons/lu";
-import type { Messages } from "../interfaces/home.ts";
+import type { Messages, chatSection } from "../interfaces/home.ts";
 // import EmojiPicker from "emoji-picker-react";
 // import { MdEmojiEmotions } from "react-icons/md";
 
 import "./messages.css";
-const Messages = () => {
+const Messages = ({ user }: chatSection) => {
   const reff = useRef<HTMLTextAreaElement>(null);
   // const [addMessage, setAddMessage] = useState<string>("");
 
@@ -21,7 +21,7 @@ const Messages = () => {
 
   const handleSendMessage = () => {
     const message = reff.current?.value;
-    console.log(message, "it is add message ");
+    console.log(reff.current?.value, "reff current value");
     if (message?.trim() !== "" && message != undefined) {
       socket.emit("chatMessage", message);
       setMessage((prev) => [...prev, { id: "sender", text: message }]);
@@ -70,7 +70,7 @@ const Messages = () => {
         <div className="flex gap-3 items-center pl-2">
           <div className="w-12 h-12 bg-black rounded-full "></div>
 
-          <p className="font-bold text-lg ">John</p>
+          <p className="font-bold text-lg ">{user.name}</p>
         </div>
 
         <BsThreeDotsVertical className="text-xl cursor-pointer" />
